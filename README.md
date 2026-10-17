@@ -18,16 +18,34 @@ It reads and writes the real thing:
 Everything is read-only until you explicitly ask it to write. `--in-place` always
 drops a `.bak` next to the original; `restore` puts it back.
 
+## modules
+
+| module | role |
+|---|---|
+| `core` | the engine — UnityFS, serialized files, LZ4/LZMA codecs (pure JVM, no Android deps) |
+| `cli`  | `nyx-injector` command line |
+| `app`  | the APK — pick a bundle via SAF, browse nodes/objects, inject a payload, save the patched copy |
+
 ## build
 
 ```bash
-gradle build          # compile + tests
-gradle installDist    # -> build/install/nyx-injector/bin/nyx-injector
+gradle :core:build :cli:build   # compile + tests
+gradle :cli:installDist         # -> cli/build/install/nyx-injector/bin/nyx-injector
+gradle :app:assembleDebug       # -> app/build/outputs/apk/debug/app-debug.apk
 ```
 
 No wrapper jar is checked in; `gradle wrapper --gradle-version 8.10.2` if you want
-`./gradlew`. CI builds and tests on every push and uploads the distribution as an
-artifact.
+`./gradlew`. CI builds, tests, and uploads both the CLI dist and the APK
+(`nyx-injector-apk` artifact).
+
+## the apk
+
+On device: **Open bundle** → tap a node → **Replace node**, or expand a
+serialized node and hit **Replace** on a specific object → pick the payload
+file → **Save patched bundle**. The patched build is written wherever you
+choose; the source bundle is never modified. Every open and inject lands in
+the **Journal** tab, stored under the app's private files.
+
 
 ## usage
 
