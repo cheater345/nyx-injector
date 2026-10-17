@@ -1,0 +1,14 @@
+[versions]
+kotlin = "2.1.0"
+xz = "1.10"
+junit = "5.10.2"
+junitPlatform = "1.10.2"
+
+[libraries]
+xz = { module = "org.tukaani:xz", version.ref = "xz" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+junit-jupiter = { module = "org.junit.jupiter:junit-jupiter", version.ref = "junit" }
+junit-launcher = { module = "org.junit.platform:junit-platform-launcher", version.ref = "junitPlatform" }
+
+[plugins]
+kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
